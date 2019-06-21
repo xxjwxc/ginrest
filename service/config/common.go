@@ -32,7 +32,7 @@ type Cfg_Base struct {
 }
 
 const (
-	Url_host  = "/jewelryserver"
+	service   = "test"
 	File_host = "/file"
 )
 
@@ -193,4 +193,8 @@ func GetRegistUrl(url string) string {
 
 func GetDomainName() string {
 	return _map.Domain_name
+}
+
+func GetServiceName() string {
+	return service
 }

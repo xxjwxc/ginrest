@@ -5,14 +5,17 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/xie1xiao1jun/go-restful/data"
-	"github.com/xie1xiao1jun/go-restful/data/config"
+	"github.com/gin-gonic/gin"
+	"github.com/xie1xiao1jun/ginrest/service"
+	"github.com/xie1xiao1jun/ginrest/service/config"
 	"github.com/xie1xiao1jun/public/server"
 )
 
+type handlerFunc1 func(*gin.Context)
+
 //
 func CallBack() {
-	var apiroot data.ApiRoot
+	var apiroot service.ApiRoot
 	apiroot.OnCreat()
 
 	//https 支持(单开一个线程)
