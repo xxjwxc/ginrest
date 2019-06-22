@@ -2,12 +2,13 @@ package config
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
+
+	"github.com/xie1xiao1jun/public/dev"
 )
 
 //
@@ -32,8 +33,7 @@ type Cfg_Base struct {
 }
 
 const (
-	service   = "test"
-	File_host = "/file"
+	FileHost = "file"
 )
 
 var Static_host = [2]string{"/static", "/static"}
@@ -42,7 +42,11 @@ var _map = Config{}
 
 func init() {
 	onInit()
-	flag.Parse()
+
+	//配置公共配置到public
+	dev.OnSetDev(OnIsDev())
+	dev.SetService(_map.Service_name)
+	dev.SetFileHost(FileHost)
 }
 
 func onInit() {
@@ -196,5 +200,5 @@ func GetDomainName() string {
 }
 
 func GetServiceName() string {
-	return service
+	return _map.Service_name
 }

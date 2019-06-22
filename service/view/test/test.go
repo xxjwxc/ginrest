@@ -32,3 +32,9 @@ func TestFun3(c *api.Context, req *ReqTest) {
 	fmt.Println(c.Params)
 	fmt.Println(req)
 }
+
+//TestFun3 带自定义context跟已解析的req参数回调方式
+func TestFun4(c *gin.Context, req ReqTest) {
+	fmt.Println(c.Params)
+	fmt.Println(req)
+}

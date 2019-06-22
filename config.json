@@ -1,7 +1,7 @@
 {
 "以下为通用配置":"--------------------------------------------",
 "serial_number":"1.0",
-"service_name":"jewelryserver",
+"service_name":"test",
 "service_displayname":"jewelryserver",
 "sercice_desc":"jewelryserver",
 "http_port":"7009",
@@ -16,7 +16,7 @@
 "apiserver_url":"http://192.168.0.152:7031/apiserver/api/v1",
 "register_url":"http://192.168.0.152:7021/register/api/v1",
 "es_addr_url":"http://192.168.0.152:9200",
-"domain_name":"http://192.168.0.40",
+"domain_name":"http://127.0.0.1",
 "以下为逻辑配置":"--------------------------------------------",
     
 "sign_api_key":"apiserver",

@@ -6,6 +6,9 @@ package service
 import (
 	"net/http"
 
+	"github.com/xie1xiao1jun/public/dev"
+	"github.com/xie1xiao1jun/public/tools"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/xie1xiao1jun/ginrest/service/config"
@@ -18,7 +21,7 @@ import (
 type ApiRoot struct {
 }
 
-func (*ApiRoot) OnCreat() {
+func (ApiRoot) OnCreat() {
 
 	if config.OnIsDev() {
 		gin.SetMode(gin.DebugMode)
@@ -28,27 +31,24 @@ func (*ApiRoot) OnCreat() {
 
 	router.OnInitRouter()
 
-	// api = rest.NewApi()
-	// if config.OnIsDev() {
-	// 	api.Use(rest.DefaultDevStack...) //DefaultProdStack
-	// } else {
-	// 	api.Use(rest.DefaultProdStack...)
-	// }
-	// router, err := router.OnInitRoter(api)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// 	panic(err)
-	// }
-	// api.SetApp(router)
-
 	//创建模版解析 ,创建文件
 
 	//http.HandleFunc("/apiserver/upload/", upload.M_upload.UpLoadOne) //添加post form
 	//微信相关接口
 	//	http.HandleFunc("/hotelserver/index.do", weixin.Index)
-	http.HandleFunc("/"+config.GetServiceName()+"/api/v1/file/upload", file.O_file.Upload) //统一上传文件
+	http.HandleFunc("/"+config.GetServiceName()+"/api/:version/file/upload", file.O_file.Upload) //统一上传文件
 	//http.HandleFunc(config.Url_host+"/api/v1/file/upload", file.O_file.UploadToCos) //统一上传文件cos
 	//-------------------end
+	buildStatic()
 
 	http.Handle("/"+config.GetServiceName()+"/api/", http.StripPrefix("/"+config.GetServiceName()+"/api", router.GetRoot())) //指定api默认路由
+}
+
+func buildStatic() {
+	if len(dev.GetFileHost()) > 0 {
+		// 设置静态目录
+		pattern := "/" + dev.GetService() + "/" + dev.GetFileHost() + "/"
+		fsh := http.FileServer(http.Dir(tools.GetCurrentDirectory() + "/" + dev.GetFileHost()))
+		http.Handle(pattern, http.StripPrefix(pattern, fsh))
+	}
 }

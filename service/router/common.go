@@ -69,9 +69,14 @@ func getCallFunc3(handlerFunc interface{}) (func(*gin.Context), error) {
 	var ctxType, reqType reflect.Type
 	ctxType = typ.In(0)
 	reqType = typ.In(1)
+	reqIsGinCtx := false
 	if ctxType != reflect.TypeOf(&gin.Context{}) &&
 		ctxType != reflect.TypeOf(&api.Context{}) {
 		return nil, errors.New("method " + tools.GetFuncName(handlerFunc) + " first parm not support!")
+	}
+
+	if ctxType == reflect.TypeOf(&gin.Context{}) {
+		reqIsGinCtx = true
 	}
 
 	reqIsValue := true //
@@ -97,7 +102,12 @@ func getCallFunc3(handlerFunc interface{}) (func(*gin.Context), error) {
 			req = req.Elem()
 		}
 
-		method.Call([]reflect.Value{reflect.ValueOf(api.Newctx(c)), req})
+		if reqIsGinCtx {
+			method.Call([]reflect.Value{reflect.ValueOf(c), req})
+		} else {
+			method.Call([]reflect.Value{reflect.ValueOf(api.Newctx(c)), req})
+		}
+
 	}, nil
 }
 

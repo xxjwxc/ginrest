@@ -15,8 +15,7 @@ type handlerFunc1 func(*gin.Context)
 
 //
 func CallBack() {
-	var apiroot service.ApiRoot
-	apiroot.OnCreat()
+	service.ApiRoot{}.OnCreat()
 
 	//https 支持(单开一个线程)
 	//	go func() {
