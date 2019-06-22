@@ -21,7 +21,6 @@ func DefaultRouler() {
 */
 func OnInitRouter() (err error) {
 	DefaultRouler()
-
 	return nil
 }
 

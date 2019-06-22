@@ -155,5 +155,5 @@ func getCallFunc3(handlerFunc interface{}) (func(*gin.Context), error) {
 // }
 
 func unmarshal(c *gin.Context, v interface{}) error {
-	return c.ShouldBind(&v)
+	return c.ShouldBind(v)
 }
