@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 
 	"github.com/xie1xiao1jun/public/dev"
 )
@@ -196,7 +197,11 @@ func GetRegistUrl(url string) string {
 }
 
 func GetDomainName() string {
-	return _map.Domain_name
+	if !strings.Contains(_map.Domain_name, "http://") {
+		return _map.Domain_name
+	}
+
+	return _map.Domain_name + ":" + GetServerPort()
 }
 
 func GetServiceName() string {
