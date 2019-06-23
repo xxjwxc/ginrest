@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/xie1xiao1jun/public/dev"
+
 	"github.com/gin-gonic/gin"
 	"github.com/xie1xiao1jun/ginrest/service"
 	"github.com/xie1xiao1jun/ginrest/service/config"
@@ -24,7 +26,7 @@ func CallBack() {
 	//	}()
 	//---------------------------end
 	//启动http
-	log.Println("http is running at " + config.GetServerPort() + " port.")
+	log.Println("http is running at " + config.GetServerPort() + " port==>" + "service:" + dev.GetService())
 	log.Fatal(http.ListenAndServe(":"+config.GetServerPort(), nil))
 }
 

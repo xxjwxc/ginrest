@@ -24,7 +24,6 @@ type ApiRoot struct {
 }
 
 func (ApiRoot) OnCreat() {
-
 	if config.OnIsDev() {
 		gin.SetMode(gin.DebugMode)
 	} else {
@@ -34,7 +33,6 @@ func (ApiRoot) OnCreat() {
 	router.OnInitRouter()
 
 	//创建模版解析 ,创建文件
-
 	//http.HandleFunc("/apiserver/upload/", upload.M_upload.UpLoadOne) //添加post form
 	//微信相关接口
 	//	http.HandleFunc("/hotelserver/index.do", weixin.Index)
@@ -43,11 +41,12 @@ func (ApiRoot) OnCreat() {
 	mylog.Debug("file upload POST -->" + "/" + config.GetServiceName() + "/api/v1/file/upload")
 	//http.HandleFunc(config.Url_host+"/api/v1/file/upload", file.O_file.UploadToCos) //统一上传文件cos
 	//-------------------end
+
 	buildStatic()
 
 	apGroupiName := "/" + config.GetServiceName() + "/api"
-	mylog.Debug("group host --> " + apGroupiName)
 	http.Handle(apGroupiName, http.StripPrefix(apGroupiName, router.GetRoot())) //指定api默认路由
+	mylog.Debug("group host --> " + apGroupiName)
 }
 
 func buildStatic() {
@@ -56,5 +55,6 @@ func buildStatic() {
 		pattern := "/" + dev.GetService() + "/" + dev.GetFileHost() + "/"
 		fsh := http.FileServer(http.Dir(tools.GetCurrentDirectory() + "/" + dev.GetFileHost()))
 		http.Handle(pattern, http.StripPrefix(pattern, fsh))
+		mylog.Debug("static file host -->" + pattern)
 	}
 }
