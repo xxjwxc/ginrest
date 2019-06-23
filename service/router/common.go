@@ -17,17 +17,10 @@ import (
  func(*Context) //自定义的context类型
  func(*Context,req) //自定义的context类型,带request 请求参数
 */
-// type handlerFunc1 func(*gin.Context)
-// type handlerFunc2 func(*api.Context)
-// type handlerFunc3 func(*api.Context, interface{})
 
 func _fun1(*gin.Context)              {}
 func _fun2(*api.Context)              {}
 func _fun3(*api.Context, interface{}) {}
-
-// var fun1 handlerFunc1
-// var fun2 handlerFunc2
-// var fun3 handlerFunc3
 
 func getHandlerFunc(handlerFunc interface{}) gin.HandlerFunc {
 	//gin默认方法

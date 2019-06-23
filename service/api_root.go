@@ -6,6 +6,8 @@ package service
 import (
 	"net/http"
 
+	"github.com/xie1xiao1jun/public/mylog"
+
 	"github.com/xie1xiao1jun/public/dev"
 	"github.com/xie1xiao1jun/public/tools"
 
@@ -36,12 +38,16 @@ func (ApiRoot) OnCreat() {
 	//http.HandleFunc("/apiserver/upload/", upload.M_upload.UpLoadOne) //添加post form
 	//微信相关接口
 	//	http.HandleFunc("/hotelserver/index.do", weixin.Index)
-	http.HandleFunc("/"+config.GetServiceName()+"/api/:version/file/upload", file.O_file.Upload) //统一上传文件
+	http.HandleFunc("/"+config.GetServiceName()+"/api/v1/file/upload", file.O_file.Upload) //统一上传文件
+
+	mylog.Debug("file upload POST -->" + "/" + config.GetServiceName() + "/api/v1/file/upload")
 	//http.HandleFunc(config.Url_host+"/api/v1/file/upload", file.O_file.UploadToCos) //统一上传文件cos
 	//-------------------end
 	buildStatic()
 
-	http.Handle("/"+config.GetServiceName()+"/api/", http.StripPrefix("/"+config.GetServiceName()+"/api", router.GetRoot())) //指定api默认路由
+	apGroupiName := "/" + config.GetServiceName() + "/api"
+	mylog.Debug("group host --> " + apGroupiName)
+	http.Handle(apGroupiName, http.StripPrefix(apGroupiName, router.GetRoot())) //指定api默认路由
 }
 
 func buildStatic() {
