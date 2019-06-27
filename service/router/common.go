@@ -4,11 +4,11 @@ import (
 	"errors"
 	"reflect"
 
-	"github.com/xie1xiao1jun/public/message"
-	"github.com/xie1xiao1jun/public/tools"
+	"github.com/xxjwxc/public/message"
+	"github.com/xxjwxc/public/tools"
 
 	"github.com/gin-gonic/gin"
-	"github.com/xie1xiao1jun/ginrest/service/router/api"
+	"github.com/xxjwxc/ginrest/service/router/api"
 )
 
 /*

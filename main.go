@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/xie1xiao1jun/public/dev"
+	"github.com/xxjwxc/public/dev"
 
 	"github.com/gin-gonic/gin"
-	"github.com/xie1xiao1jun/ginrest/service"
-	"github.com/xie1xiao1jun/ginrest/service/config"
-	"github.com/xie1xiao1jun/public/server"
+	"github.com/xxjwxc/ginrest/service"
+	"github.com/xxjwxc/ginrest/service/config"
+	"github.com/xxjwxc/public/server"
 )
 
 type handlerFunc1 func(*gin.Context)

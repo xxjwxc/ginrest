@@ -1,6 +1,6 @@
 package login
 
-import "github.com/xie1xiao1jun/public/message"
+import "github.com/xxjwxc/public/message"
 
 // type ThirdLoginParam struct {
 // 	Type     string                  `json:"type"`      //第三方标识

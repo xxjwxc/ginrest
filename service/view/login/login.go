@@ -2,8 +2,8 @@ package login
 
 import (
 	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/xie1xiao1jun/public/message"
-	"github.com/xie1xiao1jun/public/tools"
+	"github.com/xxjwxc/public/message"
+	"github.com/xxjwxc/public/tools"
 )
 
 //

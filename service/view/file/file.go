@@ -6,9 +6,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/xie1xiao1jun/ginrest/service/config"
-	"github.com/xie1xiao1jun/public/message"
-	"github.com/xie1xiao1jun/public/myhttp"
+	"github.com/xxjwxc/ginrest/service/config"
+	"github.com/xxjwxc/public/message"
+	"github.com/xxjwxc/public/myhttp"
 )
 
 //

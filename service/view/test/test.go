@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/xie1xiao1jun/ginrest/service/router/api"
+	"github.com/xxjwxc/ginrest/service/router/api"
 )
 
 //

@@ -4,7 +4,7 @@
 package router
 
 import (
-	"github.com/xie1xiao1jun/ginrest/service/view/test"
+	"github.com/xxjwxc/ginrest/service/view/test"
 )
 
 //
