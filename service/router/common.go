@@ -1,14 +1,16 @@
 package router
 
 import (
-	"errors"
 	"reflect"
+
+	"github.com/gookit/color"
+	"github.com/xxjwxc/ginrest/service/router/api"
+	"github.com/xxjwxc/public/errors"
 
 	"github.com/xxjwxc/public/message"
 	"github.com/xxjwxc/public/tools"
 
 	"github.com/gin-gonic/gin"
-	"github.com/xxjwxc/ginrest/service/router/api"
 )
 
 /*
@@ -46,7 +48,7 @@ func getHandlerFunc(handlerFunc interface{}) gin.HandlerFunc {
 	call, err := getCallFunc3(handlerFunc)
 
 	if err != nil { //直接
-		panic(err)
+		panic(color.Error.Render(err))
 	}
 
 	return call

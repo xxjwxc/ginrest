@@ -28,9 +28,8 @@ type Cfg_Base struct {
 	IsDev               bool   `json:"is_dev,omitempty"` //是否是开发版本
 	Es_addr_url         string `json:"es_addr_url"`
 	Oauth2_url          string `json:"oauth2_url,omitempty"`
-	Apiserver_url       string `json:"apiserver_url,omitempty"` //通用分析日志的url地址
-	Register_url        string `json:"register_url,omitempty"`  //注册或修改密码URL
-	Domain_name         string `json:"domain_name,omitempty"`   //域名
+	Register_url        string `json:"register_url,omitempty"` //注册或修改密码URL
+	Domain_name         string `json:"domain_name,omitempty"`  //域名
 }
 
 const (
@@ -182,10 +181,6 @@ func GetDoactionInfo() (doactionInfo DoactionInfo) {
 	doactionInfo.AppId = _map.App_id
 	doactionInfo.App_secret = _map.App_secret
 	return
-}
-
-func GetApiserverUrl(url string) string {
-	return _map.Apiserver_url + url
 }
 
 func GetEsAddrUrl() string {

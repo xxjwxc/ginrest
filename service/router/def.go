@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/xxjwxc/public/dev"
 )
 
 var apiRoot *gin.Engine
@@ -11,6 +12,11 @@ var route *gin.RouterGroup
 var version = "/:version"
 
 func init() {
+	if dev.OnIsDev() {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	//构造默认api
 	apiRoot = gin.Default()
 	//router = apiRoot.Group(config.Url_host + "/api")

@@ -1,15 +1,15 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"os"
 
-	"github.com/xxjwxc/public/dev"
-
 	"github.com/gin-gonic/gin"
+
 	"github.com/xxjwxc/ginrest/service"
 	"github.com/xxjwxc/ginrest/service/config"
+	"github.com/xxjwxc/public/dev"
+	"github.com/xxjwxc/public/mylog"
 	"github.com/xxjwxc/public/server"
 )
 
@@ -25,9 +25,10 @@ func CallBack() {
 	//		log.Fatal(http.ListenAndServeTLS(":"+config.GetServerHttpsPort(), tools.GetModelPath()+"/pem/cacert.pem", tools.GetModelPath()+"/pem/privatekey.pem", nil))
 	//	}()
 	//---------------------------end
+
 	//启动http
-	log.Println("http is running at " + config.GetServerPort() + " port==>" + "service:" + dev.GetService())
-	log.Fatal(http.ListenAndServe(":"+config.GetServerPort(), nil))
+	mylog.Println("http is running at " + config.GetServerPort() + " ===>" + "service:" + dev.GetService())
+	mylog.Fatal(http.ListenAndServe(":"+config.GetServerPort(), nil))
 }
 
 func main() {

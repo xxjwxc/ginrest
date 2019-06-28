@@ -6,16 +6,12 @@ package service
 import (
 	"net/http"
 
-	"github.com/xxjwxc/public/mylog"
-
-	"github.com/xxjwxc/public/dev"
-	"github.com/xxjwxc/public/tools"
-
-	"github.com/gin-gonic/gin"
-
 	"github.com/xxjwxc/ginrest/service/config"
 	"github.com/xxjwxc/ginrest/service/router"
 	"github.com/xxjwxc/ginrest/service/view/file"
+	"github.com/xxjwxc/public/dev"
+	"github.com/xxjwxc/public/mylog"
+	"github.com/xxjwxc/public/tools"
 )
 
 // var api *rest.Api = nil
@@ -24,11 +20,6 @@ type ApiRoot struct {
 }
 
 func (ApiRoot) OnCreat() {
-	if config.OnIsDev() {
-		gin.SetMode(gin.DebugMode)
-	} else {
-		gin.SetMode(gin.ReleaseMode)
-	}
 
 	router.OnInitRouter()
 
@@ -45,16 +36,16 @@ func (ApiRoot) OnCreat() {
 	buildStatic()
 
 	apGroupiName := "/" + config.GetServiceName() + "/api"
-	http.Handle(apGroupiName, http.StripPrefix(apGroupiName, router.GetRoot())) //指定api默认路由
+	http.Handle(apGroupiName+"/", http.StripPrefix(apGroupiName, router.GetRoot())) //指定api默认路由
 	mylog.Debug("group host --> " + apGroupiName)
 }
 
 func buildStatic() {
 	if len(dev.GetFileHost()) > 0 {
 		// 设置静态目录
-		pattern := "/" + dev.GetService() + "/" + dev.GetFileHost() + "/"
+		pattern := "/" + dev.GetService() + "/" + dev.GetFileHost()
 		fsh := http.FileServer(http.Dir(tools.GetCurrentDirectory() + "/" + dev.GetFileHost()))
-		http.Handle(pattern, http.StripPrefix(pattern, fsh))
+		http.Handle(pattern+"/", http.StripPrefix(pattern, fsh))
 		mylog.Debug("static file host -->" + pattern)
 	}
 }

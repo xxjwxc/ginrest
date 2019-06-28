@@ -3,10 +3,6 @@
 */
 package router
 
-import (
-	"github.com/ant0ine/go-json-rest/rest"
-)
-
 //
 type MiddlewareFunc struct {
 	//在此添加变量
@@ -38,20 +34,3 @@ func Delete(pathExp string, handlerFunc interface{}) {
 }
 
 //-----------------------------end
-
-/*
- Token校验，并返回client_id
-*/
-func TokenMwFunc(handler rest.HandlerFunc) (b bool, client_id string) {
-
-	return
-}
-
-/*
- 版本号检测,并返回版本号
-*/
-func VersionMwFunc(handler rest.HandlerFunc) (b bool, version string) {
-	b = false
-	version = ""
-	return
-}

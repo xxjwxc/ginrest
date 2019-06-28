@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/xxjwxc/ginrest/service/config"
+	"github.com/xxjwxc/dzmhotpot/service/config"
 	"github.com/xxjwxc/public/message"
 	"github.com/xxjwxc/public/myhttp"
 )
@@ -34,7 +34,7 @@ func (u *File) Upload(w http.ResponseWriter, r *http.Request) {
 			//返回绝对路径
 			for _, v := range tmp_paths {
 				if !strings.Contains(config.GetDomainName(), "https") {
-					paths = append(paths, config.GetDomainName()+":"+config.GetServerPort()+v)
+					paths = append(paths, config.GetDomainName()+v)
 				} else {
 					paths = append(paths, config.GetDomainName()+v)
 				}

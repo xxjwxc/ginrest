@@ -22,4 +22,9 @@ func (c *Context) GetVersion() string {
 	return c.Param("version")
 }
 
+//写入json对象
+func (c *Context) WriteJson(obj interface{}) {
+	c.JSON(200, obj)
+}
+
 //获取用户信息

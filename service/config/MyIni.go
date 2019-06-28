@@ -96,11 +96,6 @@ type ApiServerUrl struct {
 	GetUserInfo string
 }
 
-func GetFromApiServer() ApiServerUrl {
-	return ApiServerUrl{
-		_map.Apiserver_url + "/auto_menu/get_one_user"}
-}
-
 func GetSignKey() string {
 	return _map.Sign_api_key
 }
