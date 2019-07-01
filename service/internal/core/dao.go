@@ -3,11 +3,9 @@ package core
 import (
 	"runtime"
 
+	"github.com/xxjwxc/ginrest/service/config"
 	"github.com/xxjwxc/public/errors"
-
 	"github.com/xxjwxc/public/mylog"
-
-	"github.com/xxjwxc/gormt/data/config"
 	"github.com/xxjwxc/public/mysqldb"
 )
 
@@ -21,27 +19,35 @@ type DaoCore struct {
 }
 
 func init() {
-	runtime.SetFinalizer(Dao, Dao.Destory) //析构时触发
 	Dao.InitDao()
 }
 
-func GetDBr() *mysqldb.MySqlDB {
-	if Dao.dbr == nil {
+func (dao *DaoCore) GetDB() *mysqldb.MySqlDB {
+	if dao.dbr == nil {
 		mylog.Error(errors.New("dbr is nil."))
 	}
-	return Dao.dbr
+	return dao.dbr
 }
 
-func GetDBw() *mysqldb.MySqlDB {
-	if Dao.dbw == nil {
+func (dao *DaoCore) GetDBr() *mysqldb.MySqlDB {
+	if dao.dbr == nil {
+		mylog.Error(errors.New("dbr is nil."))
+	}
+	return dao.dbr
+}
+
+func (dao *DaoCore) GetDBw() *mysqldb.MySqlDB {
+	if dao.dbw == nil {
 		mylog.Error(errors.New("dbw is nil."))
 	}
-	return Dao.dbw
+	return dao.dbw
 }
 
 func (dao *DaoCore) InitDao() {
-	dao.dbr = mysqldb.OnInitDBOrm(config.GetMysqlConStr())
-	dao.dbw = mysqldb.OnInitDBOrm(config.GetMysqlConStr())
+	runtime.SetFinalizer(dao, dao.Destory) //析构时触发
+
+	dao.dbr = mysqldb.OnInitDBOrm(config.GetDbUrl())
+	dao.dbw = mysqldb.OnInitDBOrm(config.GetDbUrl())
 }
 
 func (dao *DaoCore) Destory() {
