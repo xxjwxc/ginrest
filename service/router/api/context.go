@@ -6,6 +6,8 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/xxjwxc/ginrest/service/view/user"
+	"github.com/xxjwxc/public/mylog"
 )
 
 type Context struct {
@@ -28,3 +30,14 @@ func (c *Context) WriteJson(obj interface{}) {
 }
 
 //获取用户信息
+func (c *Context) GetUserInfo() (u *user.UserInfo, b bool) {
+	access_token, err := c.Cookie("user_token")
+	if err != nil {
+		u = &user.UserInfo{}
+		u.Username, u.ExpireTime, b = user.GetUserFromToken(access_token)
+		return
+	}
+
+	mylog.Error(err)
+	return nil, false
+}

@@ -39,8 +39,9 @@ func GetUserFromToken(token string) (username string, expire_time int, b bool) {
 				SaveCacheBody(token, msg.Data["username"], msg.Data["expire_time"])
 
 				//返回结果
-				username = tmp.User_name
-				expire_time = tmp.Expire_time
+				//返回结果
+				username = msg.Data["username"]
+				expire_time, _ = strconv.Atoi(msg.Data["expire_time"])
 			}
 			return
 		}
