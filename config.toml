@@ -1,0 +1,7 @@
+serial_number = "1.0"  #版本号
+service_name = "xxj"   #服务名
+service_displayname = "xxj name" #服务显示名
+sercice_desc = "xxj desc"    #服务描述
+is_dev = false  # 是否开发者模式
+http_port = "7011" # 监听端口号
+leveldb_dir = "database" # leveldb数据库地址

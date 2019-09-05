@@ -1,10 +1,10 @@
 package router
 
 import (
+	"ginrest/service/router/api"
 	"reflect"
 
 	"github.com/gookit/color"
-	"github.com/xxjwxc/ginrest/service/router/api"
 	"github.com/xxjwxc/public/errors"
 
 	"github.com/xxjwxc/public/message"

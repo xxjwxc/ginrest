@@ -1,42 +1,35 @@
 package config
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
-	"os/exec"
-	"path/filepath"
-	"strings"
 
+	"github.com/xxjwxc/public/mylog"
+
+	"github.com/BurntSushi/toml"
 	"github.com/xxjwxc/public/dev"
+	"github.com/xxjwxc/public/tools"
 )
 
-//
-type Cfg_Base struct {
-	Serial_number       string `json:"serial_number,omitempty"`       //对应JSON的serial_number,如果为空置则忽略字段
-	Service_name        string `json:"service_name,omitempty"`        //对应JSON的 service_name,如果为空置则忽略字段
-	Service_displayname string `json:"service_displayname,omitempty"` //对应JSON的 service_displayname,如果为空置则忽略字段
-	Sercice_desc        string `json:"sercice_desc,omitempty"`        //对应JSON的 sercice_desc,如果为空置则忽略字段
-	Http_Port           string `json:"http_port,omitempty"`           //对应JSON的 http_port,如果为空置则忽略字段
-	Https_port          string `json:"https_port,omitempty"`          //对应JSON的 https_port,如果为空置则忽略字段
-	Db_url              string `json:"db_url,omitempty"`              //对应JSON的 db_url,如果为空置则忽略字段
-	Leveldb_dir         string `json:"leveldb_dir,omitempty"`         //对应JSON的 leveldb_dir,如果为空置则忽略字段 cache数据库
-	Token_type          string `json:"token_type,omitempty"`
-	App_id              string `json:"app_id,omitempty"`
-	App_secret          string `json:"app_secret,omitempty"`
-	IsDev               bool   `json:"is_dev,omitempty"` //是否是开发版本
-	Es_addr_url         string `json:"es_addr_url"`
-	Oauth2_url          string `json:"oauth2_url,omitempty"`
-	Register_url        string `json:"register_url,omitempty"` //注册或修改密码URL
-	Domain_name         string `json:"domain_name,omitempty"`  //域名
+//CfgBase 基础配置
+type CfgBase struct {
+	SerialNumber       string `json:"serial_number" toml:"serial_number"`             //版本号
+	ServiceName        string `json:"service_name" toml:"service_name"`               //service名字
+	ServiceDisplayname string `json:"service_displayname" toml:"service_displayname"` //显示名
+	SerciceDesc        string `json:"sercice_desc" toml:"sercice_desc"`               //service描述
+	IsDev              bool   `json:"is_dev" toml:"is_dev"`                           //是否是开发版本
+	DomainName         string `json:"domain_name" toml:"domain_name"`                 //域名
+	HTTPPort           string `json:"http_port" toml:"http_port"`                     //端口号
+	LeveldbDir         string `json:"leveldb_dir" toml:"leveldb_dir"`                 //leveldb数据库地址
+	Oauth2URL          string `json:"oauth2_url" toml:"oauth2_url"`                   //oauth授权地址入口
 }
 
 const (
+	//FileHost 文件地址
 	FileHost = "file"
 )
 
-var Static_host = [2]string{"/static", "/static"}
+//StaticHost 静态文件存放地址
+var StaticHost = [2]string{"/static", ""}
 
 var _map = Config{}
 
@@ -45,160 +38,80 @@ func init() {
 
 	//配置公共配置到public
 	dev.OnSetDev(OnIsDev())
-	dev.SetService(_map.Service_name)
+	dev.SetService(_map.ServiceName)
 	dev.SetFileHost(FileHost)
 }
 
 func onInit() {
-	file, _ := exec.LookPath(os.Args[0])
-	path, _ := filepath.Abs(file)
-
-	// if len(path) > 0 {
-	// 	path += "/"
-	// }
-	path = filepath.Dir(path)
-	err := InitFile(path + "/config.json")
+	path := tools.GetModelPath()
+	err := initFile(path + "/config.toml")
 	if err != nil {
-		fmt.Println("InitFile: ", err.Error())
+		fmt.Println("initFile error : ", err.Error())
+		mylog.Fatal(err)
 		return
 	}
 }
 
-//是否是开发版本
+//OnIsDev 是否是开发版本
 func OnIsDev() bool {
 	return _map.IsDev
 }
 
-//获取端口号
+//GetServerPort 获取端口号
 func GetServerPort() (strPort string) {
-	strPort = _map.Http_Port
+	strPort = _map.HTTPPort
 	return
 }
 
-//获取端口号
-func GetServerHttpsPort() (strPort string) {
-	strPort = _map.Https_port
-	return
+//GetLevelDbDir 获取Leveldb的文件地址
+func GetLevelDbDir() string {
+	return tools.GetModelPath() + "/" + _map.LeveldbDir
 }
 
-//获取db连接字符串
-func GetDbUrl() (strMysqlUrl string) {
-	strMysqlUrl = _map.Db_url
-	return
-}
-
-//获取Leveldb的文件地址
-func GetLevelDbDir() (strLeveldb_dir string) {
-	strLeveldb_dir = _map.Leveldb_dir
-	return
-}
-
-func InitFile(filename string) error {
-	if IsRunTesting() {
-		bytes := []byte(test_file)
-		if err := json.Unmarshal(bytes, &_map); err != nil {
-			fmt.Println("Unmarshal: ", err.Error())
-			return err
-		}
-
-		return nil
-	} else {
-		bytes, err := ioutil.ReadFile(filename)
-		if err != nil {
-			fmt.Println("ReadFile: ", err.Error())
-			return err
-		}
-
-		if err := json.Unmarshal(bytes, &_map); err != nil {
-			fmt.Println("Unmarshal: ", err.Error())
-			return err
-		}
-
-		return nil
+//初始化文件
+func initFile(filename string) error {
+	if _, err := toml.DecodeFile(filename, &_map); err != nil {
+		fmt.Println("read toml error: ", err.Error())
+		return err
 	}
 
+	return nil
 }
 
-//获取service配置信息
-func GetServiceConfig() (name, displayName, desc string) {
-	name = _map.Service_name
-	displayName = _map.Service_displayname
-	desc = _map.Sercice_desc
-	return
-}
-
-//获取token类型
-func GetTokenType() string {
-	return _map.Token_type
-}
-
-//获取授权信息码
-func GetAppInfo() (appid, appsecret string) {
-	appid = _map.App_id
-	appsecret = _map.App_secret
-	return
-}
-
-func GetLoginUrl() string {
-	return _map.Oauth2_url + "/authorize"
-}
-
-func GetLoginNoPwdUrl() string {
-	return _map.Oauth2_url + "/authorize_nopwd"
-}
-
-func GetCheckTokenUrl() string {
-	return _map.Oauth2_url + "/check_token"
-}
-
-func GetRefreshTokenUrl() string {
-	return _map.Oauth2_url + "/refresh_token"
-}
-
-type VerifyInfo struct {
-	Url        string
-	AppId      string
-	App_secret string
-}
-
-//获取验证码配置信息
-func GetVerifyInfo() (verifyInfo VerifyInfo) {
-	verifyInfo.Url = _map.Register_url + "/get_verify"
-	verifyInfo.AppId = _map.App_id
-	verifyInfo.App_secret = _map.App_secret
-	return
-}
-
-type DoactionInfo struct {
-	Url        string
-	AppId      string
-	App_secret string
-}
-
-//获取注册或修改密码配置信息
-func GetDoactionInfo() (doactionInfo DoactionInfo) {
-	doactionInfo.Url = _map.Register_url + "/doaction"
-	doactionInfo.AppId = _map.App_id
-	doactionInfo.App_secret = _map.App_secret
-	return
-}
-
-func GetEsAddrUrl() string {
-	return _map.Es_addr_url
-}
-
-func GetRegistUrl(url string) string {
-	return _map.Register_url + url
-}
-
-func GetDomainName() string {
-	if !strings.Contains(_map.Domain_name, "http://") {
-		return _map.Domain_name
-	}
-
-	return _map.Domain_name + ":" + GetServerPort()
-}
-
+//GetServiceName 服务名字
 func GetServiceName() string {
-	return _map.Service_name
+	return _map.ServiceName
+}
+
+//GetServiceConfig 获取service配置信息
+func GetServiceConfig() (name, displayName, desc string) {
+	name = _map.ServiceName
+	displayName = _map.ServiceDisplayname
+	desc = _map.SerciceDesc
+	return
+}
+
+//GetDomainName 获取服务器地址
+func GetDomainName() string {
+	return _map.DomainName
+}
+
+//GetLoginURL 登录地址
+func GetLoginURL() string {
+	return _map.Oauth2URL + "/authorize"
+}
+
+//GetLoginNoPwdURL 密码登录
+func GetLoginNoPwdURL() string {
+	return _map.Oauth2URL + "/authorize_nopwd"
+}
+
+//GetCheckTokenURL token 检测
+func GetCheckTokenURL() string {
+	return _map.Oauth2URL + "/check_token"
+}
+
+//GetRefreshTokenURL token刷新
+func GetRefreshTokenURL() string {
+	return _map.Oauth2URL + "/refresh_token"
 }

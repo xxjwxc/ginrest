@@ -3,7 +3,7 @@
 */
 package router
 
-import "github.com/xxjwxc/ginrest/service/view/test"
+import "ginrest/service/view/test"
 
 /*
 	默认初始化

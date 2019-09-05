@@ -6,9 +6,10 @@ package service
 import (
 	"net/http"
 
-	"github.com/xxjwxc/ginrest/service/config"
-	"github.com/xxjwxc/ginrest/service/router"
-	"github.com/xxjwxc/ginrest/service/view/file"
+	"ginrest/service/config"
+	"ginrest/service/router"
+	"ginrest/service/view/file"
+
 	"github.com/xxjwxc/public/dev"
 	"github.com/xxjwxc/public/mylog"
 	"github.com/xxjwxc/public/tools"

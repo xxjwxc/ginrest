@@ -3,7 +3,8 @@ package core
 import (
 	"runtime"
 
-	"github.com/xxjwxc/ginrest/service/config"
+	"ginrest/service/config"
+
 	"github.com/xxjwxc/public/errors"
 	"github.com/xxjwxc/public/mylog"
 	"github.com/xxjwxc/public/mysqldb"

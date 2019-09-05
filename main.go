@@ -1,19 +1,15 @@
 package main
 
 import (
+	"ginrest/service"
+	"ginrest/service/config"
 	"net/http"
 	"os"
 
-	"github.com/gin-gonic/gin"
-
-	"github.com/xxjwxc/ginrest/service"
-	"github.com/xxjwxc/ginrest/service/config"
 	"github.com/xxjwxc/public/dev"
 	"github.com/xxjwxc/public/mylog"
 	"github.com/xxjwxc/public/server"
 )
-
-type handlerFunc1 func(*gin.Context)
 
 //
 func CallBack() {

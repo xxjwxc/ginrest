@@ -1,12 +1,12 @@
 package file
 
 import (
+	"ginrest/service/config"
 	"net/http"
 	"path"
 	"regexp"
 	"strings"
 
-	"github.com/xxjwxc/dzmhotpot/service/config"
 	"github.com/xxjwxc/public/message"
 	"github.com/xxjwxc/public/myhttp"
 )
@@ -14,7 +14,7 @@ import (
 //
 var O_file File
 
-//
+//File ..
 type File struct {
 }
 
@@ -27,7 +27,7 @@ func (u *File) Upload(w http.ResponseWriter, r *http.Request) {
 		var paths []string
 		result, tmp_paths := myhttp.UploadMoreFile(r, "")
 		if !result {
-			myhttp.WriteJson(w, message.GetErrorMsg(message.UnknownError))
+			myhttp.WriteJSON(w, message.GetErrorMsg(message.UnknownError))
 			return
 		}
 		if len(tmp_paths) > 0 {
@@ -42,9 +42,9 @@ func (u *File) Upload(w http.ResponseWriter, r *http.Request) {
 		}
 		msg := message.GetSuccessMsg(message.NormalMessageId)
 		msg.Data = paths
-		myhttp.WriteJson(w, msg)
+		myhttp.WriteJSON(w, msg)
 	} else {
-		myhttp.WriteJson(w, message.MessageBody{State: false, Code: 405, Error: "method not allowed", Data: nil})
+		myhttp.WriteJSON(w, message.MessageBody{State: false, Code: 405, Error: "method not allowed", Data: nil})
 		return
 	}
 }

@@ -3,8 +3,9 @@ package test
 import (
 	"fmt"
 
+	"ginrest/service/router/api"
+
 	"github.com/gin-gonic/gin"
-	"github.com/xxjwxc/ginrest/service/router/api"
 )
 
 //
