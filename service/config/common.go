@@ -70,6 +70,16 @@ func GetLevelDbDir() string {
 
 //初始化文件
 func initFile(filename string) error {
+
+	if IsRunTesting() {
+		if _, err := toml.Decode(test_file, &_map); err != nil {
+			fmt.Println("read toml error: ", err.Error())
+			return err
+		}
+
+		return nil
+	}
+
 	if _, err := toml.DecodeFile(filename, &_map); err != nil {
 		fmt.Println("read toml error: ", err.Error())
 		return err
