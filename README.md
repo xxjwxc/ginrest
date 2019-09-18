@@ -1,3 +1,4 @@
+# 本项目不再维护，新地址[ginrpc](https://github.com/xxjwxc/ginrpc)
 # go-restful
 - 基于 [go-gin](https://github.com/gin-gonic/gin) 的 json restful 风格的golang基础库
 
